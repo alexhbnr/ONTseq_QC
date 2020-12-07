@@ -42,6 +42,7 @@ os.makedirs("cluster_logs", exist_ok=True)
 rule all:
     input: 
         expand("{projdir}/fastq/{barcode}.fastq.gz", projdir=[PROJDIR], barcode=BARCODES),
+        expand("{projdir}/logs/nanostat/{barcode}.nanostat.txt", projdir=[PROJDIR], barcode=BARCODES),
         f"{PROJDIR}/logs/pycoqc/pycoqc_summary.html",
         f"{PROJDIR}/logs/multiqc_report.html",
         f"{PROJDIR}/logs/nreads_per_barcode.txt"
@@ -134,7 +135,7 @@ rule nanostat:
         """
         NanoStat --fastq {input} \
                  --outdir {params.outdir} \
-                 --outname {params.outname} \
+                 --name {params.outname} \
                  --threads {threads}
         """
 
