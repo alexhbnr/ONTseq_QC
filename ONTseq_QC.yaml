@@ -1,0 +1,13 @@
+name: ONTseq_QC
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.7
+  - nanostat
+  - fastqc
+  - multiqc
+  - pip 
+  - pip:
+    - pycoQC

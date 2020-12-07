@@ -1,0 +1,9 @@
+{
+    "projname" : "",
+    "datadir" : "",
+    "projdir" : "",
+    "tmpdir" : "",
+    "expectedbarcodes" : "",
+    "basecalltype" : "fast",
+    "guppydir" : "/projects1/nanopore_rawdata/ONTseq_pipeline/tools/ont-guppy-cpu"
+}

@@ -1,0 +1,39 @@
+{
+    "__default__" :
+    {
+        "partition" : "short",
+        "mem"       : "4000",
+        "time"      : "0-02:00",
+        "out"       : "cluster_logs/slurm.%j.out",
+        "err"       : "cluster_logs/slurm.%j.err"
+    },
+
+    "guppy_basecalling" :
+    {
+        "partition" : "medium",
+        "mem"       : "16000",
+        "time"      : "2-00:00",
+    },
+
+    "guppy_demultiplexing" :
+    {
+        "partition" : "medium",
+        "mem"       : "16000",
+        "time"      : "2-00:00",
+    },
+
+    "fastqc" :
+    {
+        "mem"       : "8000"
+    },
+
+    "pycoqc" :
+    {
+        "mem"       : "8000"
+    },
+
+    "multiqc" :
+    {
+        "mem"       : "8000"
+    },
+}
