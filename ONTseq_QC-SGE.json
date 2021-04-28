@@ -1,0 +1,33 @@
+{
+    "__default__" :
+    {
+        "mem"       : "4G",
+        "out"       : "cluster_logs/\\$JOB_NAME.\\$JOB_ID.o",
+        "err"       : "cluster_logs/\\$JOB_NAME.\\$JOB_ID.e"
+    },
+
+    "guppy_basecalling" :
+    {
+        "mem"       : "16G"
+    },
+
+    "guppy_demultiplexing" :
+    {
+        "mem"       : "16G"
+    },
+
+    "fastqc" :
+    {
+        "mem"       : "12G"
+    },
+
+    "pycoqc" :
+    {
+        "mem"       : "8G"
+    },
+
+    "multiqc" :
+    {
+        "mem"       : "8G"
+    }
+}
