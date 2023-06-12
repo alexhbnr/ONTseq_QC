@@ -3,7 +3,11 @@
     "datadir" : "",
     "projdir" : "",
     "tmpdir" : "",
-    "expectedbarcodes" : "",
-    "basecalltype" : "fast",
-    "guppydir" : "/projects1/nanopore_rawdata/ONTseq_pipeline/tools/ont-guppy-cpu"
+    "fileformat" : "pod5",
+    "flowcell_generation": "10.4.1",
+    "motor_enzyme": "e8.2_400bps",
+    "accuracymode" : "sup",
+    "barcodekit": "SQK-NBD114-24",
+    "guppydir" : "/opt/ont/guppy",
+    "guppymode" : "gpu"
 }

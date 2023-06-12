@@ -1,0 +1,39 @@
+################################################################################
+# Snakemake pipeline for base-calling, de-multiplexing and quality control of
+# raw MinION Nanopore data
+#
+# Steps:
+#   1. Basecalling with Guppy either using the fast, high-accuracy, or super
+#      high accuracy mode
+#   2. De-multiplexing with Guppy
+#   3. Create a single FastQ file for expected barcodes (specified via CSV file)
+#   4. Summary of the quality of the sequencing run (summary using MultiQC)
+#     a. FastQC
+#     b. pycoQC
+#     c. NanoStat
+#   5. Taxonomic profile
+#
+# Alex Huebner, 08/06/2023
+################################################################################
+
+from glob import glob
+import os
+import sys
+
+import pandas as pd
+
+workdir: config['tmpdir']
+
+include: "rules/prepare_data.smk"
+include: "rules/basecalling.smk"
+include: "rules/demultiplexing.smk"
+include: "rules/quality_eval.smk"
+
+os.makedirs(config['projdir'], exist_ok=True)
+
+rule all:
+    input: 
+        f"{config['projdir']}/guppy_basecalling_{config['accuracymode']}/demultiplexing.done",
+        f"{config['projdir']}/guppy_basecalling_{config['accuracymode']}/quality_evaluation.done"
+
+

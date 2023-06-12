@@ -1,0 +1,14 @@
+{
+    "projname" : "230606_UKL_Pilot",
+    "datadir" : "/media/user/E75E-F9CB/MinION/230606_UKL_Pilot/serum_pilot/20230606_1655_MN34669_FAW89290_410d6ff4",
+    "projdir" : "/media/user/E75E-F9CB/MinION_processedData/230606_UKL_Pilot-1655_MN34669_FAW89290_410d6ff4",
+    "tmpdir" : "/tmp/MinION",
+    "fileformat" : "pod5",
+    "expectedbarcodes" : "",
+    "flowcell_generation": "10.4.1",
+    "motor_enzyme": "e8.2_400bps",
+    "accuracymode" : "sup",
+    "barcodekit": "SQK-NBD114-24",
+    "guppydir" : "/opt/ont/guppy",
+    "guppymode" : "gpu"
+}
