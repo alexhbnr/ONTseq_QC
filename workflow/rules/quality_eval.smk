@@ -30,16 +30,14 @@ rule quality_evalution:
 
 rule count_reads:
     input:
-        f"{config['projdir']}/guppy_basecalling_{config['accuracymode']}/demultiplexing.done"
+        lambda wildcards: f"{config['projdir']}/guppy_basecalling_{config['accuracymode']}/fastq/{wildcards.barcode}.fastq.gz"
     output:
         "{tmpdir}/nreads/{barcode}.n"
     message: "Count the number of reads: {wildcards.barcode}"
     conda: "../envs/ENVS_bioawk.yaml"
-    params:
-        fastq = lambda wildcards: glob(f"{config['projdir']}/guppy_basecalling_{config['accuracymode']}/fastq/{wildcards.barcode}/*.fastq.gz")[0]
     shell:
         """
-        echo -e "{wildcards.barcode}\t$(bioawk -c fastx 'END{{print NR}}' {params.fastq})" > {output}
+        echo -e "{wildcards.barcode}\t$(bioawk -c fastx 'END{{print NR}}' {input})" > {output}
         """
 
 rule summarise_nreads:
@@ -60,7 +58,7 @@ rule summarise_nreads:
 
 rule nanostat:
     input:
-        "{projdir}/guppy_basecalling_{accuracymode}/fastq/{barcode}/{barcode}.fastq.gz"
+        "{projdir}/guppy_basecalling_{accuracymode}/fastq/{barcode}.fastq.gz"
     output:
         "{projdir}/guppy_basecalling_{accuracymode}/logs/nanostat/{barcode}.nanostat.txt"
     message: "Infer quality statistics for barcode {wildcards.barcode}"
@@ -83,7 +81,7 @@ rule nanostat:
 
 rule fastqc:
     input:
-        "{projdir}/guppy_basecalling_{accuracymode}/fastq/{barcode}/{barcode}.fastq.gz"
+        "{projdir}/guppy_basecalling_{accuracymode}/fastq/{barcode}.fastq.gz"
     output:
         "{projdir}/guppy_basecalling_{accuracymode}/logs/fastqc/{barcode}/{barcode}_fastqc.html"
     message: "Run FastQC on barcode {wildcards.barcode}"
@@ -103,13 +101,12 @@ rule fastqc:
 rule pycoqc:
     input:
         summary = "{projdir}/guppy_basecalling_{accuracymode}/guppy/sequencing_summary.txt",
-        barcode = "{projdir}/guppy_basecalling_{accuracymode}/fastq/barcoding_summary.txt"
+        barcode = "{projdir}/guppy_basecalling_{accuracymode}/demultiplexing/barcoding_summary.txt"
     output:
         html = "{projdir}/guppy_basecalling_{accuracymode}/logs/pycoqc/pycoqc_summary.html",
         json = "{projdir}/guppy_basecalling_{accuracymode}/logs/pycoqc/pycoqc_summary.json"
     message: "Run PycoQC to analyse the quality of the run"
     conda: "../envs/ENVS_pycoqc.yaml"
-    params:
     shell:
         """
         pycoQC -f {input.summary} \
@@ -125,7 +122,8 @@ rule pycoqc:
 
 rule multiqc:
     input:
-        expected_fastqc_files
+        expected_fastqc_files,
+        expected_porechop_files
     output:
         "{projdir}/guppy_basecalling_{accuracymode}/logs/multiqc_report.html"
     message: "Summarise the FastQC reports using MultiQC"

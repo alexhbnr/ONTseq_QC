@@ -7,11 +7,12 @@
 #      high accuracy mode
 #   2. De-multiplexing with Guppy
 #   3. Create a single FastQ file for expected barcodes (specified via CSV file)
-#   4. Summary of the quality of the sequencing run (summary using MultiQC)
+#   4. Trim barcode and adapters using Porechop
+#   5. Summary of the quality of the sequencing run (summary using MultiQC)
 #     a. FastQC
 #     b. pycoQC
 #     c. NanoStat
-#   5. Taxonomic profile
+#   6. Taxonomic profile
 #
 # Alex Huebner, 08/06/2023
 ################################################################################
@@ -27,13 +28,15 @@ workdir: config['tmpdir']
 include: "rules/prepare_data.smk"
 include: "rules/basecalling.smk"
 include: "rules/demultiplexing.smk"
+include: "rules/barcode_adapter_trimming.smk"
 include: "rules/quality_eval.smk"
 
 os.makedirs(config['projdir'], exist_ok=True)
+
+wildcard_constraints:
+    barcode = "(barcode[0-9]+|unclassified)"
 
 rule all:
     input: 
         f"{config['projdir']}/guppy_basecalling_{config['accuracymode']}/demultiplexing.done",
         f"{config['projdir']}/guppy_basecalling_{config['accuracymode']}/quality_evaluation.done"
-
-
